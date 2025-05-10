@@ -1,0 +1,33 @@
+.sign-up-container {
+    height: 100%;
+    display: grid;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+
+    .sign-up-form-container {
+        display: grid;
+        gap: 0.5rem;
+    }
+
+    .link {
+        color: #66B2FF;
+        cursor: pointer;
+        font-weight: bold;
+
+        &:hover {
+            color: #003366;
+        }
+    }
+
+    .error-container {
+        color: red;
+        background-color: rgba(255,0,0, 0.2);
+        border: 1px solid red;
+        border-radius: 5px;
+    }
+
+    button:disabled {
+        opacity: 0.4;
+    }
+}

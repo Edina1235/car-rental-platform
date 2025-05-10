@@ -1,0 +1,54 @@
+<div class="sign-up-container">
+    <div class="sign-up-form-container">
+        <h1>Sign up</h1>
+        <div *ngIf="reservedEmailOrUsername" class="error-container">
+            <div>Már foglalt email/felhasználónév</div>
+        </div>
+        <div class="sign-up-box">
+            <form [formGroup]="this.signUpForm">
+                <div class="form-item">
+                    <label>Username:</label>
+                    <input formControlName="username" type="text"/>
+                    <div *ngIf="this.signUpForm.get('username')?.invalid && this.signUpForm.get('username')?.touched && this.signUpForm.get('email')?.errors!['minlength']" class="error-box">
+                        Username's min length is 4.
+                    </div>
+                    <div *ngIf="this.signUpForm.get('username')?.invalid && this.signUpForm.get('username')?.touched && this.signUpForm.get('email')?.errors!['required']" class="error-box">
+                        Username is required.
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label>Email:</label>
+                    <input formControlName="email" type="email"/>
+                    <div *ngIf="this.signUpForm.get('email')?.invalid && this.signUpForm.get('email')?.touched && !this.signUpForm.get('email')?.errors!['required']" class="error-box">
+                        Email is invalid.
+                    </div>
+                    <div *ngIf="this.signUpForm.get('email')?.invalid && this.signUpForm.get('email')?.touched && this.signUpForm.get('email')?.errors!['required']" class="error-box">
+                        Email is required.
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label>Password:</label>
+                    <input formControlName="password" type="password"/>
+                    <div *ngIf="this.signUpForm.get('password')?.invalid && this.signUpForm.get('password')?.touched && this.signUpForm.get('password')?.errors!['required']" class="error-box">
+                        Password is required.
+                    </div>
+                    <div *ngIf="this.signUpForm.get('password')?.invalid && this.signUpForm.get('password')?.touched && this.signUpForm.get('password')?.errors!['minlength']" class="error-box">
+                        Password's min length is 6.
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label>Password again:</label>
+                    <input formControlName="passwordAgain" type="password"/>
+                    <div *ngIf="this.signUpForm.get('passwordAgain')?.invalid && this.signUpForm.get('passwordAgain')?.touched" class="error-box">
+                        Password again is required.
+                    </div>
+                    <div *ngIf="this.signUpForm.get('passwordAgain')?.touched && this.signUpForm?.errors?.['passwordsMismatch']" class="error-box">
+                        The password don't match.
+                    </div>
+                </div>
+                <button [disabled]="this.signUpForm.invalid">Sign up</button>
+            </form>
+        </div>
+        <p>Go to <span class="link" (click)="onClickLogin()">login</span>!</p>
+    </div>
+</div>

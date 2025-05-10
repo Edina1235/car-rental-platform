@@ -1,0 +1,28 @@
+<div class="login-container">
+    <div class="login-form-container">
+        <h1>Login</h1>
+        <div class="login-box">
+            <form [formGroup]="this.loginForm">
+                <div class="form-item">
+                    <label>Email:</label>
+                    <input formControlName="email" type="email"/>
+                    <div *ngIf="this.loginForm.get('email')?.invalid && this.loginForm.get('email')?.touched && !this.loginForm.get('email')?.errors!['required']" class="error-box">
+                        Email is invalid.
+                    </div>
+                    <div *ngIf="this.loginForm.get('email')?.invalid && this.loginForm.get('email')?.touched && this.loginForm.get('email')?.errors!['required']" class="error-box">
+                        Email is required.
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label>Password:</label>
+                    <input formControlName="password" type="password"/>
+                   <div *ngIf="this.loginForm.get('password')?.invalid && this.loginForm.get('password')?.touched && this.loginForm.get('password')?.errors!['required']" class="error-box">
+                        Password is required.
+                    </div>
+                </div>
+                <button [disabled]="this.loginForm.invalid">Login</button>
+            </form>
+        </div>
+        <p>Go to <span class="link" (click)="onClickSignUp()">sign up</span>!</p>
+    </div>
+</div>

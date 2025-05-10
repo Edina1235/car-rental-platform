@@ -1,0 +1,68 @@
+html {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    height: 100%;
+    background-color: #F5F5F5;
+    color: #333333;
+}
+.login-box, .sign-up-box {
+    width: clamp(15rem, 30vw, 420px);
+    background-color: #66B2FF;
+    padding: 1.5rem 1rem 1rem;
+    border-radius: 5px;
+
+    form {
+        display: grid;
+        text-align: start;
+    }
+
+    button {
+        margin: auto;
+        padding: 0.5rem 1rem;
+        background-color: #004080;
+        border: none;
+        border-radius: 5px;
+        color: white;
+    }
+}
+
+.form-item {
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 0.5rem;
+
+    label {
+        color: white;
+    }
+
+    input {
+        border: none;
+        background-color: transparent;
+        border-bottom: 1px solid white; 
+    }
+
+    .error-box {
+        color: red;
+        font-size: 0.8rem;
+    }
+}
+
+/*
+Sötétkék, alapszín:
+#003366 vagy #004080
+
+Kiemelés (narancssárga):
+#FF6600 vagy #FFA500
+
+Háttér (világos szürke):
+#F5F5F5 vagy #E0E0E0
+
+Szöveg (sötétszürke):
+#333333
+
+Másodlagos szín (világoskék):
+#66B2FF
+*/
