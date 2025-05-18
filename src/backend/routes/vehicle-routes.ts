@@ -107,6 +107,7 @@ export const configureVehicleRoutes = (router: Router): Router => {
         const vehicle: Vehicle = {
           ...req.body
         }
+        console.log(vehicle);
         await VehicleModel.insertOne(vehicle);
         console.log("Vehicle created")
         res.sendStatus(201);

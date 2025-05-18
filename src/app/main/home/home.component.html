@@ -1,3 +1,18 @@
 <div class="home-container">
-    homes
+    <h1 class="title">Find Your Ride</h1>
+    <div class="cars">
+        <div *ngFor="let vehicle of vehicles" class="car">
+            <img class="car-image" [src]="vehicle.images[0] ? vehicle.images[0] : './../../../assets/default-image.jpg'"/>
+            <div class="brand">
+                {{vehicle.brand}}
+            </div>
+            <div class="model">
+                {{vehicle.model}}
+            </div>
+            <div class="daily-rate">
+                {{vehicle.dailyRate}}<div class="currency">Ft</div> <div class="per-day">/day</div>
+            </div>
+            <button class="more-button" (click)="onClickMore(vehicle._id)">More details</button>
+        </div>
+    </div>
 </div>

@@ -1,1 +1,49 @@
-<p>rented-cars works!</p>
+<div *ngIf="bookings && userId && vehicles && extraServices" class="rented-cars-container">
+    <table>
+        <tr>
+            <th>Vehicle brand</th>
+            <th>Vehicle model</th>
+            <th>extra services</th>
+            <th>start date</th>
+            <th>end date</th>
+            <th>created at</th>
+            <th>total price</th>
+            <th>status</th>
+            <th>update/delete</th>
+        </tr>
+        <tr *ngFor="let booking of bookings">
+            <td>
+                {{getVehicleBrand(booking.vehicleId)}}
+            </td>
+            <td>
+                {{getVehicleModel(booking.vehicleId)}}
+            </td>
+            <td>
+                <ng-container *ngFor="let extraService_id of booking.extraServiceIds">
+                    {{getExtraServiceName(extraService_id)}}
+                </ng-container>
+            </td>
+            <td>
+                {{booking.startDate | date:'yyyy-MM-dd'}}
+            </td>
+            <td>
+                {{booking.endDate | date:'yyyy-MM-dd'}}
+            </td>
+            <td>
+                {{booking.createdAt | date:'yyyy-MM-dd'}}
+            </td>
+            <td>
+                {{booking.totalPrice}}
+            </td>
+            <td>
+                {{booking.status}}
+            </td>
+            <td>
+                <div class="buttons" *ngIf="getElerheto(booking.startDate)">
+                    <i class="fa-solid fa-pencil" (click)="onClickUpdate(booking._id)"></i>
+                    <i class="fa-solid fa-trash-can" (click)="onClickDelete(booking._id)"></i>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>

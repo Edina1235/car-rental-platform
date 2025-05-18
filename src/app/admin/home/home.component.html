@@ -1,1 +1,20 @@
-<p>home works!</p>
+<div class="home-container">
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Created At</th>
+            <th>Delete</th>
+        </tr>
+        <tr *ngFor="let user of users">
+            <ng-container *ngIf="user.role === Role.User">
+                <td>{{user.name}}</td>
+                <td>{{user.email}}</td>
+                <td>{{user.createdAt | date:'yyyy-MM-dd'}}</td>
+                <td><i class="fa-solid fa-trash-can" (click)="onClickDelete(user._id)"></i></td>
+            </ng-container>
+        </tr>
+    </table>
+
+    <app-rented-cars></app-rented-cars>
+</div>

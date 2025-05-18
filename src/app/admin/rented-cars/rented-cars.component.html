@@ -1,1 +1,46 @@
-<p>rented-cars works!</p>
+<div *ngIf="bookings && users && vehicles && extraServices" class="rented-cars-container">
+    <table>
+        <tr>
+            <th>Email</th>
+            <th>Vehicle brand</th>
+            <th>Vehicle model</th>
+            <th>extra services</th>
+            <th>start date</th>
+            <th>end date</th>
+            <th>created at</th>
+            <th>total price</th>
+            <th>status</th>
+        </tr>
+        <tr *ngFor="let booking of bookings">
+            <td>
+                {{getUserEmail(booking.userId)}}
+            </td>
+            <td>
+                {{getVehicleBrand(booking.vehicleId)}}
+            </td>
+            <td>
+                {{getVehicleModel(booking.vehicleId)}}
+            </td>
+            <td>
+                <ng-container *ngFor="let extraService_id of booking.extraServiceIds">
+                    {{getExtraServiceName(extraService_id)}}
+                </ng-container>
+            </td>
+            <td>
+                {{booking.startDate | date:'yyyy-MM-dd'}}
+            </td>
+            <td>
+                {{booking.endDate | date:'yyyy-MM-dd'}}
+            </td>
+            <td>
+                {{booking.createdAt | date:'yyyy-MM-dd'}}
+            </td>
+            <td>
+                {{booking.totalPrice}}
+            </td>
+            <td>
+                {{booking.status}}
+            </td>
+        </tr>
+    </table>
+</div>

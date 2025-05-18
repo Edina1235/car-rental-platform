@@ -1,1 +1,40 @@
-<p>add-new-rental-car works!</p>
+<div class="add-new-rental-car-container">
+    <div class="add-new-rental-car-form-container">
+        <h1>Add new car</h1>
+        <div class="add-new-car-box">
+            <form [formGroup]="this.newCarForm">
+                <div class="form-item">
+                    <label>Brand:</label>
+                    <input formControlName="brand" type="text"/>
+                    <div *ngIf="this.newCarForm.get('brand')?.invalid && this.newCarForm.get('brand')?.touched && this.newCarForm.get('brand')?.errors!['minlength']" class="error-box">
+                        Brand's min length is 2.
+                    </div>
+                    <div *ngIf="this.newCarForm.get('brand')?.invalid && this.newCarForm.get('brand')?.touched && this.newCarForm.get('model')?.errors!['required']" class="error-box">
+                        Brand is required.
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label>Model:</label>
+                    <input formControlName="model" type="text"/>
+                    <div *ngIf="this.newCarForm.get('model')?.invalid && this.newCarForm.get('model')?.touched && !this.newCarForm.get('model')?.errors!['minLength']" class="error-box">
+                        Model's min length is 2.
+                    </div>
+                    <div *ngIf="this.newCarForm.get('model')?.invalid && this.newCarForm.get('model')?.touched && this.newCarForm.get('model')?.errors!['required']" class="error-box">
+                        Model is required.
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label>dailyRate:</label>
+                    <input formControlName="dailyRate" type="number"/>
+                    <div *ngIf="this.newCarForm.get('dailyRate')?.invalid && this.newCarForm.get('dailyRate')?.touched && this.newCarForm.get('dailyRate')?.errors!['required']" class="error-box">
+                        dailyRate is required.
+                    </div>
+                </div>
+                <div class="form-item">
+                    <input type="file" (change)="onFileChange($event)" multiple accept="image/*" />
+                </div>
+                <button [disabled]="this.newCarForm.invalid" (click)="onClickSave()">Save</button>
+            </form>
+        </div>
+    </div>
+</div>

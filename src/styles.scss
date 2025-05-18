@@ -7,8 +7,9 @@ body {
     height: 100%;
     background-color: #F5F5F5;
     color: #333333;
+    margin: 0;
 }
-.login-box, .sign-up-box {
+.login-box, .sign-up-box, .add-new-car-box {
     width: clamp(15rem, 30vw, 420px);
     background-color: #66B2FF;
     padding: 1.5rem 1rem 1rem;
@@ -26,6 +27,30 @@ body {
         border: none;
         border-radius: 5px;
         color: white;
+    }
+}
+
+.brand {
+    font-weight: 500;
+    font-size: 1.2rem;
+    margin: auto;
+}
+
+.model {
+    font-style: italic;
+    margin: auto;
+}
+
+.daily-rate, .price {
+    display: flex;
+    font-size: 1.4rem;
+    font-weight: 500;
+    gap: 0.25rem;
+    align-items: flex-end;
+    margin: auto;
+
+    .per-day {
+        font-size: 1rem;
     }
 }
 
@@ -47,6 +72,136 @@ body {
     .error-box {
         color: red;
         font-size: 0.8rem;
+    }
+}
+
+.extra-services {
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 300px));
+    justify-content: center;
+    color: #fff;
+
+    .extra-service {
+        display: grid;
+        grid-template-areas: "name price"
+        "description description"
+        ". select";
+        background-color: #333333;  
+        border-radius: 5px;
+        padding: 0.5rem;
+        gap: 1rem;
+        max-width: 100%;
+
+        .name {
+            grid-area: name;
+            font-size: 1.4rem;;
+        }
+
+        .description {
+            grid-area: description; 
+            word-wrap: break-word;      /* Régebbi neve */
+            overflow-wrap: break-word;  /* Újabb, szabványos */
+            word-break: break-word;     /* Alternatív */
+            white-space: normal; 
+        }
+
+        .price {
+            grid-area: price;
+        }
+
+        .select {
+            grid-area: select;
+            border: none;
+            border-radius: 5px;
+            padding: 0.5rem;
+
+            &.selected {
+                background-color: #66B2FF;
+            }
+
+            .unselected {
+                background-color: gray;
+            }
+        }
+
+    }
+}
+
+.title {
+    color: #333333;
+    font-size: 1.8rem;
+}
+
+.book {
+    background-color: #003366;
+    color: white;
+    border-radius: 5px;
+    font-weight: 600;
+    border: none;
+    padding: 0.5rem;
+    width: fit-content;
+} 
+    .cars {
+        display: grid;
+        gap: 0.5rem;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 300px));
+        justify-content: center;
+
+        .car {
+            display: grid;
+            border: 1px solid gray;
+            border-radius: 5px;
+            justify-content: center;
+            padding: 0.5rem;
+            gap: 0.25rem;
+
+            .car-image {
+                width: 80%;
+                margin: auto;
+            }
+
+            button {
+                margin: auto;
+                padding: 0.5rem 1rem;
+                background-color: #004080;
+                border: none;
+                border-radius: 5px;
+                color: white;
+            }
+        }
+    }
+
+.buttons {
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: center;
+    gap: 0.5rem;
+
+    i, button {
+        margin: auto;
+        padding: 0.5rem 1rem;
+        background-color: #004080;
+        border: none;
+        border-radius: 5px;
+        color: white;
+    }
+}
+
+table {
+    margin: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid #66B2FF;
+    border-collapse: collapse;
+    text-align: center;
+
+    th {
+        background-color: #66B2FF;
+    }
+
+    th, td {
+        border: 1px solid #66B2FF;
+        padding: 0.5rem;
     }
 }
 

@@ -1,0 +1,13 @@
+<div class="header-container">
+    <ng-container *ngIf="role === Role.Admin else user">
+        <button [ngClass]="{'active': activeRoute === '/admin/home' || activeRoute === '/admin'}" (click)="onClickAdminHome()">home</button>
+        <button [ngClass]="{'active': activeRoute === '/admin/add-new-rental-car'}" (click)="onClickAddNewCar()">add-new-car</button>
+        <button [ngClass]="{'active': activeRoute === '/admin/add-new-extra-service'}" (click)="onClickAddNewExtraService()">add-new-extra-service</button>
+        <button [ngClass]="{'active': activeRoute === '/admin/cars'}" (click)="onClickAdminCars()">cars</button>
+    </ng-container>
+    <ng-template #user>
+        <button [ngClass]="{'active': activeRoute === '/car-rental-platform/home' || activeRoute === '/car-rental-platform'}" (click)="onClickUserHome()">home</button>
+        <button [ngClass]="{'active': activeRoute === '/car-rental-platform/rented-cars'}" (click)="onClickUserRentedCars()">rented-cars</button>
+    </ng-template>
+    <button (click)="onClickLogout()">Logout</button>
+</div>

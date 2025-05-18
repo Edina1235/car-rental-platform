@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Role, User } from 'src/app/core/models/user';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 export function passwordMatchValidator(passwordKey: string, confirmPasswordKey: string): ValidatorFn {
   return (group: AbstractControl): ValidationErrors | null => {
@@ -25,8 +26,11 @@ export class SignUpComponent implements OnInit {
   public reservedEmailOrUsername: boolean = false;
     
   constructor(private router: Router,
-              private http: HttpClient
-  ) {}
+    private authService: AuthService
+  ) {
+    if(localStorage.getItem('user_id'))
+      router.navigateByUrl('/car-rental-platform');
+  }
 
   ngOnInit(): void {
     this.signUpForm = new FormGroup({
@@ -37,19 +41,40 @@ export class SignUpComponent implements OnInit {
     },{
       validators: passwordMatchValidator('password', 'passwordAgain')
     });
-
-    this.loadItems();
   }
 
-  loadItems() {
-    this.http.get<any[]>('http://localhost:3000/vehicles').subscribe(data => {
-      console.log(data);
-    });
+  public onClickSignUp() {
+    const user: User = {
+      name: this.username,
+      email: this.email,
+      passwordHash: this.password,
+      createdAt: String(new Date()),
+      role: Role.User
+    }
+
+    this.authService.register(user).subscribe({
+        next: (data) => {
+          console.log(data);
+          this.onClickLogin();
+        }, error: (err) => {
+          console.log(err);
+        }
+      });
   }
 
   public onClickLogin() {
     this.router.navigateByUrl("/login");
   }
 
-  
+  public get username() {
+    return this.signUpForm.get('username')?.value;
+  }
+
+  public get email() {
+    return this.signUpForm.get('email')?.value;
+  }
+
+  public get password() {
+    return this.signUpForm.get('password')?.value;
+  }
 }

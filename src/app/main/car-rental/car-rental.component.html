@@ -1,1 +1,39 @@
-<p>car-rental works!</p>
+<div *ngIf="vehicle" class="car-rental-container">
+    <div class="car">
+        <img class="car-image" [src]="vehicle.images[0] ? vehicle.images[0] : './../../../assets/default-image.jpg'"/>
+        <div class="data"> 
+            <div class="brand">{{vehicle.brand}}</div>
+            <div class="model">{{vehicle.model}}</div>
+            <div class="daily-rate">{{vehicle.dailyRate}}<div class="currency">Ft</div> <div class="per-day">/day</div></div>
+            <div class="created-at">{{vehicle.createdAt}}</div>
+            <div class="date-picker">
+                <input class="date-picker-input" matInput
+                        [minDate]="today"
+                        ngxDaterangepickerMd
+                        [(ngModel)]="selected"
+                        [isInvalidDate]="isInvalidDate"
+                        [showClearButton]="true"
+                        placeholder="Choose an interval"/>
+            </div>
+        </div>
+    </div>
+    <div class="title-container">
+        <div class="title">Extra services</div>
+        <button class="book" (click)="onClickBook()">Book it</button>
+    </div>
+    <div class="extra-services">
+        <div *ngFor="let extraService of extraServices" class="extra-service">
+            <div class="name">{{extraService.name}}</div>
+            <div class="description">{{extraService.description}}</div>
+            <div class="price">
+                {{extraService.pricePerDay}} <div class="currency">Ft</div> <div class="per-day">/day</div>
+            </div>
+            <button class="select" [ngClass]="{'selected': selectedExtraServices.includes(extraService), 'un_selected': !selectedExtraServices.includes(extraService)}" (click)="onClickSelect(extraService?._id)">Add</button>
+        </div>
+    </div>
+    <div class="images">
+        <div *ngFor="let image of vehicle.images" class="image">
+            <img class="car-image" [src]="image"/>
+        </div>
+    </div>
+</div>

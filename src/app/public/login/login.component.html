@@ -20,7 +20,7 @@
                         Password is required.
                     </div>
                 </div>
-                <button [disabled]="this.loginForm.invalid">Login</button>
+                <button [disabled]="this.loginForm.invalid" (click)="onClickLogin()">Login</button>
             </form>
         </div>
         <p>Go to <span class="link" (click)="onClickSignUp()">sign up</span>!</p>

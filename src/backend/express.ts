@@ -9,7 +9,10 @@ import { configureAuthRoutes, configureAvailabilityRoutes, configureBookingRoute
 import { configurePassport } from './utils';
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:4200', // vagy '*', ha mindenkit engedsz (fejlesztéshez)
+  credentials: true // ha cookie-t vagy session-t is használsz
+}));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());

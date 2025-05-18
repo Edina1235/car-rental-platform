@@ -1,0 +1,35 @@
+.car-rental-container {
+    display: grid;
+    gap: 0.5rem;
+    padding: 0.5rem;
+
+    .car {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+
+        .car-image {
+            width: 80%;
+        }
+
+        .data {
+            .created-at {
+                font-style: italic;
+                opacity: 0.8;
+            }
+
+            .date-picker {
+                .date-picker-input {
+                    border: 1px solid gray;
+                    border-radius: 5px;
+                    padding: 0.5rem;
+                }
+            }
+        }
+    }
+}
+
+.title-container {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1rem;
+}

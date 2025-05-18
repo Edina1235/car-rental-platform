@@ -1,0 +1,37 @@
+
+<div class="home-container">
+    <h1 class="title">Vehicles</h1>
+    <div class="cars">
+        <div *ngFor="let vehicle of vehicles" class="car">
+            <img class="car-image" [src]="vehicle.images[0] ? vehicle.images[0] : './../../../assets/default-image.jpg'"/>
+            <div class="brand">
+                {{vehicle.brand}}
+            </div>
+            <div class="model">
+                {{vehicle.model}}
+            </div>
+            <div class="daily-rate">
+                {{vehicle.dailyRate}}<div class="currency">Ft</div> <div class="per-day">/day</div>
+            </div>
+            <div class="buttons">
+                <button class="update-button" (click)="onClickUpdate(vehicle._id)"><i class="fa-solid fa-pencil"></i></button>
+                <button class="delete-button" (click)="onClickDelete(vehicle._id)"><i class="fa-solid fa-trash-can"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <h1 class="title">Extra Services</h1>
+     <div class="extra-services">
+        <div *ngFor="let extraService of extraServices" class="extra-service">
+            <div class="name">{{extraService.name}}</div>
+            <div class="description">{{extraService.description}}</div>
+            <div class="price">
+                {{extraService.pricePerDay}} <div class="currency">Ft</div> <div class="per-day">/day</div>
+            </div>
+            <div class="buttons">
+                <button class="update-button" (click)="onClickUpdateExtraService(extraService._id)"><i class="fa-solid fa-pencil"></i></button>
+                <button class="delete-button" (click)="onClickDeleteExtraService(extraService._id)"><i class="fa-solid fa-trash-can"></i></button>
+            </div>
+        </div>
+    </div>
+</div>

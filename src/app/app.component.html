@@ -1,1 +1,8 @@
-<router-outlet></router-outlet>
+<!--<ng-container *ngIf="!isLoading; else loading">
+    
+</ng-container>
+<ng-template #loading>
+    Loading...
+</ng-template>-->
+<app-header *ngIf="user_id"></app-header>
+    <router-outlet></router-outlet>

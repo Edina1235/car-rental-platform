@@ -42,12 +42,21 @@ export const configureAuthRoutes = (passport: PassportStatic, router: Router): R
             console.log(err);
             res.status(500).send('Internal server error.');
           } else {
+            console.log(user);
             res.status(200).send(user);
           }
         });
       }
     })(req, res, next);
   });
+
+  router.get('/checkAuth', (req, res) => {
+        if (req.isAuthenticated()) {
+            res.status(200).send(true);            
+        } else {
+            res.status(500).send(false);
+        }
+    });
 
   router.post('/logout', (req, res) => {
     if (!req.isAuthenticated()) {

@@ -5,6 +5,23 @@ import mongoose from 'mongoose';
 
 export const configureUserRoutes = (router: Router): Router => {
 
+  
+
+  router.get('/', async (req, res) => {
+    if (!req.isAuthenticated()) {
+      res.status(500).send('User is not logged in.');
+    } else if ((req.user as User).role === Role.Admin) {
+      try {
+        const users = await UserModel.find({});
+        res.json(users);
+      } catch (e) {
+        console.log(e)
+      }
+    } else {
+      res.status(403).send('User does not have the required role');
+    }
+  });
+
   router.get('/:id', async (req, res) => {
     if (!req.isAuthenticated()) {
       res.status(500).send('User is not logged in.');
@@ -20,21 +37,6 @@ export const configureUserRoutes = (router: Router): Router => {
       }
     }
   });
-
-  router.get('/', async (req, res) => {
-    if (!req.isAuthenticated()) {
-      res.status(500).send('User is not logged in.');
-    } else if ((req.user as User).role === Role.Admin) {
-      try {
-        const users = await UserModel.find({});
-        res.json(users);
-      } catch (e) {
-        console.log(e)
-      }
-    } else {
-      res.status(403).send('User does not have the required role');
-    }
-  })
 
   router.put('/:id', async (req, res) => {
     if (!req.isAuthenticated()) {

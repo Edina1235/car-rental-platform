@@ -46,7 +46,7 @@
                         The password don't match.
                     </div>
                 </div>
-                <button [disabled]="this.signUpForm.invalid">Sign up</button>
+                <button [disabled]="this.signUpForm.invalid" (click)="onClickSignUp()">Sign up</button>
             </form>
         </div>
         <p>Go to <span class="link" (click)="onClickLogin()">login</span>!</p>
