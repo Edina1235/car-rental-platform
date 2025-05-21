@@ -9,10 +9,10 @@
                 <div class="form-item">
                     <label>Username:</label>
                     <input formControlName="username" type="text"/>
-                    <div *ngIf="this.signUpForm.get('username')?.invalid && this.signUpForm.get('username')?.touched && this.signUpForm.get('email')?.errors!['minlength']" class="error-box">
+                    <div *ngIf="this.signUpForm.get('username')?.invalid && this.signUpForm.get('username')?.touched && this.signUpForm.get('username')?.errors!['minlength']" class="error-box">
                         Username's min length is 4.
                     </div>
-                    <div *ngIf="this.signUpForm.get('username')?.invalid && this.signUpForm.get('username')?.touched && this.signUpForm.get('email')?.errors!['required']" class="error-box">
+                    <div *ngIf="this.signUpForm.get('username')?.invalid && this.signUpForm.get('username')?.touched && this.signUpForm.get('username')?.errors!['required']" class="error-box">
                         Username is required.
                     </div>
                 </div>

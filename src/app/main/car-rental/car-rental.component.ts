@@ -21,6 +21,7 @@ export class CarRentalComponent implements OnInit {
   id?: string;
   booking_id?: string;
   public vehicle?: Vehicle;
+  startDate: string = '';
   extraServices?: ExtraService[];
   selectedExtraServices: ExtraService[] = [];
   todayDate: Date = new Date();
@@ -96,6 +97,7 @@ export class CarRentalComponent implements OnInit {
             next: (data) => {
               console.log(data);
               const booking = data as Bookings;
+              this.startDate = booking.startDate;
               const startDate = new Date(booking.startDate);
               const endDate =new Date(booking.endDate);
 
@@ -113,6 +115,32 @@ export class CarRentalComponent implements OnInit {
                 next: (value) => {
                   console.log(value);
                   this.vehicle = value as Vehicle;
+
+                  if(this.vehicle._id) this.bookingService.getBookingWithVehicleId(this.vehicle._id).subscribe({
+                    next: (data) => {
+                      console.log(data);
+                      const bookings = data as Bookings[];
+                      
+                      bookings.forEach(booking => {
+                        if(booking.startDate !== this.startDate) {
+                          const startDate = new Date(booking.startDate);
+                          const endDate = new Date(booking.endDate);
+                          const number = endDate.getDate() - startDate.getDate();
+                          
+                          if(number === 0) {
+                            this.bookedDates.push(dayjs(`${startDate.getFullYear()}-${startDate.getMonth()+1}-${startDate.getDate()}`));
+                          }
+
+                          for(let i = 0; i < number; i++) {
+                            this.bookedDates.push(dayjs(`${startDate.getFullYear()}-${startDate.getMonth()+1}-${startDate.getDate()+i}`));
+                          }
+
+                        }
+                      });
+                    }, error: (error) => {
+                      console.log(error);
+                    }
+                  });
                 }, error(err) {
                   console.log(err);
                 },

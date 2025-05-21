@@ -58,6 +58,7 @@ export class SignUpComponent implements OnInit {
           this.onClickLogin();
         }, error: (err) => {
           console.log(err);
+          this.onClickLogin();
         }
       });
   }
