@@ -1,0 +1,6 @@
+- hosts: webservers
+  tasks:
+    - name: Másold át az Angular build fájljait
+      copy:
+        src: ./dist/
+        dest: /var/www/html/angular-app/
