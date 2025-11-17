@@ -1,9 +1,9 @@
 pipeline {
     agent any
     stages {
-        stage('Checkout') {
+        stage('Checkout (explicit)') {
             steps {
-                git 'https://github.com/Edina1235/car-rental-platform.git'
+                checkout scm
             }
         }
         stage('Install dependencies') {
