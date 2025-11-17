@@ -7,8 +7,8 @@
         <div class="sign-up-box">
             <form [formGroup]="this.signUpForm">
                 <div class="form-item">
-                    <label>Username:</label>
-                    <input formControlName="username" type="text"/>
+                    <label for="username">Username:</label>
+                    <input id="username" formControlName="username" type="text"/>
                     <div *ngIf="this.signUpForm.get('username')?.invalid && this.signUpForm.get('username')?.touched && this.signUpForm.get('username')?.errors!['minlength']" class="error-box">
                         Username's min length is 4.
                     </div>
@@ -17,8 +17,8 @@
                     </div>
                 </div>
                 <div class="form-item">
-                    <label>Email:</label>
-                    <input formControlName="email" type="email"/>
+                    <label for="email">Email:</label>
+                    <input id="email" formControlName="email" type="email"/>
                     <div *ngIf="this.signUpForm.get('email')?.invalid && this.signUpForm.get('email')?.touched && !this.signUpForm.get('email')?.errors!['required']" class="error-box">
                         Email is invalid.
                     </div>
@@ -27,8 +27,8 @@
                     </div>
                 </div>
                 <div class="form-item">
-                    <label>Password:</label>
-                    <input formControlName="password" type="password"/>
+                    <label for="password">Password:</label>
+                    <input id="password" formControlName="password" type="password"/>
                     <div *ngIf="this.signUpForm.get('password')?.invalid && this.signUpForm.get('password')?.touched && this.signUpForm.get('password')?.errors!['required']" class="error-box">
                         Password is required.
                     </div>
@@ -37,8 +37,8 @@
                     </div>
                 </div>
                 <div class="form-item">
-                    <label>Password again:</label>
-                    <input formControlName="passwordAgain" type="password"/>
+                    <label for="password-again">Password again:</label>
+                    <input id="password-again" formControlName="passwordAgain" type="password"/>
                     <div *ngIf="this.signUpForm.get('passwordAgain')?.invalid && this.signUpForm.get('passwordAgain')?.touched" class="error-box">
                         Password again is required.
                     </div>
@@ -49,6 +49,6 @@
                 <button [disabled]="this.signUpForm.invalid" (click)="onClickSignUp()">Sign up</button>
             </form>
         </div>
-        <p>Go to <span class="link" (click)="onClickLogin()">login</span>!</p>
+        <p>Go to <span class="link" tabindex="0" role="button" (keyup.space)="onClickLogin()" (click)="onClickLogin()">login</span>!</p>
     </div>
 </div>

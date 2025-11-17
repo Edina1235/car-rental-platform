@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../../core/models/user';
 
@@ -9,7 +9,7 @@ export class UserService {
   public user?: User;
   public main_url = 'http://localhost:3000/user';
 
-  constructor(private http: HttpClient) { }
+  private readonly http = inject(HttpClient);
 
   public getUserWithId(id: string) {
     return this.http.get(this.main_url + `/${id}`, {withCredentials: true});

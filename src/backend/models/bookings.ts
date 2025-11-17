@@ -6,7 +6,7 @@ export interface Bookings {
   startDate: Date
   endDate: Date
   createdAt: Date
-  totalPrice: Number,
+  totalPrice: number,
   status: string,
   extraServiceIds: string[],
 }

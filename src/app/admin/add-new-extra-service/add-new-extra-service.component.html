@@ -4,8 +4,8 @@
         <div class="add-new-car-box">
             <form [formGroup]="this.newExtraServiceForm">
                 <div class="form-item">
-                    <label>Name:</label>
-                    <input formControlName="name" type="text"/>
+                    <label for="name">Name:</label>
+                    <input id="name" formControlName="name" type="text"/>
                     <div *ngIf="this.newExtraServiceForm.get('name')?.invalid && this.newExtraServiceForm.get('name')?.touched && this.newExtraServiceForm.get('name')?.errors!['minlength']" class="error-box">
                         Name's min length is 2.
                     </div>
@@ -14,8 +14,8 @@
                     </div>
                 </div>
                 <div class="form-item">
-                    <label>Description:</label>
-                    <input formControlName="description" type="text"/>
+                    <label for="description">Description:</label>
+                    <input id="description" formControlName="description" type="text"/>
                     <div *ngIf="this.newExtraServiceForm.get('description')?.invalid && this.newExtraServiceForm.get('description')?.touched && !this.newExtraServiceForm.get('description')?.errors!['minLength']" class="error-box">
                         Description's min length is 2.
                     </div>
@@ -24,8 +24,8 @@
                     </div>
                 </div>
                 <div class="form-item">
-                    <label>Price(/day):</label>
-                    <input formControlName="pricePerDay" type="number"/>
+                    <label for="price">Price(/day):</label>
+                    <input id="price" formControlName="pricePerDay" type="number"/>
                     <div *ngIf="this.newExtraServiceForm.get('pricePerDay')?.invalid && this.newExtraServiceForm.get('pricePerDay')?.touched && this.newExtraServiceForm.get('pricePerDay')?.errors!['required']" class="error-box">
                         Price(/day) is required.
                     </div>

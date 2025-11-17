@@ -1,5 +1,5 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
 import { ExtraService } from 'src/app/core/models/extra-services';
 
 @Injectable({
@@ -8,7 +8,7 @@ import { ExtraService } from 'src/app/core/models/extra-services';
 export class ExtraServiceService {
   public main_url = 'http://localhost:3000/extra-service';
 
-  constructor(private http: HttpClient) { }
+  private readonly http = inject(HttpClient);
 
   public getExtraServiceWithId(id: string) {
     return this.http.get(this.main_url + `/${id}`, {withCredentials: true});

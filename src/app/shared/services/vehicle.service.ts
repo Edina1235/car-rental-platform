@@ -1,5 +1,5 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
 import { Vehicle } from 'src/app/core/models/vehicle';
 
 @Injectable({
@@ -8,7 +8,7 @@ import { Vehicle } from 'src/app/core/models/vehicle';
 export class VehicleService {
   public main_url = 'http://localhost:3000/vehicles';
 
-  constructor(private http: HttpClient) { }
+  private readonly http = inject(HttpClient);
 
   public getVehicleWithId(id: string) {
     return this.http.get(this.main_url + `/${id}`, {withCredentials: true});

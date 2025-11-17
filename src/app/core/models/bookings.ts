@@ -5,7 +5,7 @@ export interface Bookings {
   startDate: string,
   endDate: string,
   createdAt: string,
-  totalPrice: Number,
+  totalPrice: number,
   status: string,
   extraServiceIds: string[],
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Vehicle } from 'src/app/core/models/vehicle';
 import { VehicleService } from 'src/app/shared/services/vehicle.service';
@@ -9,11 +9,10 @@ import { VehicleService } from 'src/app/shared/services/vehicle.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  vehicles: Vehicle[] = []
+  vehicles: Vehicle[] = [];
 
-  constructor(private router: Router,
-    private vehicleService: VehicleService
-  ) {}
+  private readonly router = inject(Router);
+  private readonly vehicleService = inject(VehicleService);
 
   ngOnInit() {
     this.vehicleService.getVehicles().subscribe((vehicles) => {

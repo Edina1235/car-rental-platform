@@ -2,7 +2,7 @@
     <h1 class="title">Find Your Ride</h1>
     <div class="cars">
         <div *ngFor="let vehicle of vehicles" class="car">
-            <img class="car-image" [src]="vehicle.images[0] ? vehicle.images[0] : './../../../assets/default-image.jpg'"/>
+            <img class="car-image" alt="car-img" [src]="vehicle.images[0] ? vehicle.images[0] : './../../../assets/default-image.jpg'"/>
             <div class="brand">
                 {{vehicle.brand}}
             </div>

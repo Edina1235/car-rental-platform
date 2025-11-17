@@ -1,8 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { filter, map } from 'rxjs';
-import { UserService } from './shared/services/user.service';
-import { Role, User } from './core/models/user';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -12,14 +10,14 @@ import { Role, User } from './core/models/user';
 export class AppComponent implements OnInit {
   title = 'car-rental-platform';
   user_id?: string;
-  isLoading: boolean = false;
+  isLoading = false;
 
-  constructor(private router: Router) {}
+  private readonly router = inject(Router);
 
   ngOnInit() {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
-    ).subscribe(event => {
+    ).subscribe(_unused => {
       this.onRouteChange();
     });
   }

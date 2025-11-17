@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import dayjs, { Dayjs } from 'dayjs';
 import utc from 'dayjs/plugin/utc';
@@ -21,17 +21,16 @@ export class CarRentalComponent implements OnInit {
   id?: string;
   booking_id?: string;
   public vehicle?: Vehicle;
-  startDate: string = '';
+  startDate = '';
   extraServices?: ExtraService[];
   selectedExtraServices: ExtraService[] = [];
   todayDate: Date = new Date();
   today: Dayjs = dayjs(`${this.todayDate.getFullYear()}-${this.todayDate.getMonth()+1}-${this.todayDate.getDate()}`);
 
-  constructor(private route: ActivatedRoute,
-    private vehicleService: VehicleService,
-    private bookingService: BookingService,
-    private extraServiceService: ExtraServiceService
-  ) {}
+  private readonly route = inject(ActivatedRoute);
+  private readonly vehicleService = inject(VehicleService);
+  private readonly bookingService = inject(BookingService);
+  private readonly extraServiceService = inject(ExtraServiceService);
 
   bookedDates: Dayjs[] = [];
 
@@ -172,7 +171,7 @@ export class CarRentalComponent implements OnInit {
   }
 
   onClickBook() {
-    let totalPrice = this.getTotalPrice();
+    const totalPrice = this.getTotalPrice();
     const userId = localStorage.getItem("user_id");
     if(userId && this.selected) {
       if(this.id) {

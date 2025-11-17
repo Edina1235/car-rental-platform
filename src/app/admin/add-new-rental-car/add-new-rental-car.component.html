@@ -4,8 +4,8 @@
         <div class="add-new-car-box">
             <form [formGroup]="this.newCarForm">
                 <div class="form-item">
-                    <label>Brand:</label>
-                    <input formControlName="brand" type="text"/>
+                    <label for="brand">Brand:</label>
+                    <input id="brand" formControlName="brand" type="text"/>
                     <div *ngIf="this.newCarForm.get('brand')?.invalid && this.newCarForm.get('brand')?.touched && this.newCarForm.get('brand')?.errors!['minlength']" class="error-box">
                         Brand's min length is 2.
                     </div>
@@ -14,8 +14,8 @@
                     </div>
                 </div>
                 <div class="form-item">
-                    <label>Model:</label>
-                    <input formControlName="model" type="text"/>
+                    <label for="model">Model:</label>
+                    <input id="model" formControlName="model" type="text"/>
                     <div *ngIf="this.newCarForm.get('model')?.invalid && this.newCarForm.get('model')?.touched && !this.newCarForm.get('model')?.errors!['minLength']" class="error-box">
                         Model's min length is 2.
                     </div>
@@ -24,8 +24,8 @@
                     </div>
                 </div>
                 <div class="form-item">
-                    <label>dailyRate:</label>
-                    <input formControlName="dailyRate" type="number"/>
+                    <label for="dailyRate">dailyRate:</label>
+                    <input id="dailyRate" formControlName="dailyRate" type="number"/>
                     <div *ngIf="this.newCarForm.get('dailyRate')?.invalid && this.newCarForm.get('dailyRate')?.touched && this.newCarForm.get('dailyRate')?.errors!['required']" class="error-box">
                         dailyRate is required.
                     </div>

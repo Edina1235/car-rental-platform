@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Role, User } from 'src/app/core/models/user';
 import { UserService } from 'src/app/shared/services/user.service';
 
@@ -10,8 +10,7 @@ import { UserService } from 'src/app/shared/services/user.service';
 export class HomeComponent implements OnInit {
   users?: User[];
   Role = Role;
-
-  constructor(private userService: UserService) {}
+  private readonly userService = inject(UserService);
 
   ngOnInit() {
     this.userService.getUsers().subscribe({

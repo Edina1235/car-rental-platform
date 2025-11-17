@@ -1,6 +1,6 @@
 <div *ngIf="vehicle" class="car-rental-container">
     <div class="car">
-        <img class="car-image" [src]="vehicle.images[0] ? vehicle.images[0] : './../../../assets/default-image.jpg'"/>
+        <img class="car-image" alt="car-img" [src]="vehicle.images[0] ? vehicle.images[0] : './../../../assets/default-image.jpg'"/>
         <div class="data"> 
             <div class="brand">{{vehicle.brand}}</div>
             <div class="model">{{vehicle.model}}</div>
@@ -33,7 +33,7 @@
     </div>
     <div class="images">
         <div *ngFor="let image of vehicle.images" class="image">
-            <img class="car-image" [src]="image"/>
+            <img class="car-image" alt="car-img" [src]="image"/>
         </div>
     </div>
 </div>

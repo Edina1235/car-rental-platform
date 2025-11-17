@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { NavigationEnd, Router, Scroll } from '@angular/router';
+import { Component, inject, OnInit } from '@angular/core';
+import { Router, Scroll } from '@angular/router';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { UserService } from 'src/app/shared/services/user.service';
 import { Role, User } from '../models/user';
@@ -14,10 +14,9 @@ export class HeaderComponent implements OnInit {
   Role = Role;
   activeRoute?: string;
 
-  constructor(private authService: AuthService,
-    private router: Router,
-    private userService: UserService
-  ) {}
+  private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
+  private readonly userService = inject(UserService);
 
   ngOnInit(): void {
     this.router.events.subscribe({

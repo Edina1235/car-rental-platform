@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from 'src/app/core/models/user';
@@ -16,12 +16,13 @@ export class LoginComponent {
     password: new FormControl('', [Validators.required])
   });
 
-  constructor(public router: Router,
-    private authService: AuthService,
-    private userService: UserService
-  ) {
+  private readonly router = inject(Router);
+  private readonly authService = inject(AuthService);
+  private readonly userService = inject(UserService);
+
+  constructor() {
     if(localStorage.getItem('user_id'))
-      router.navigateByUrl('/car-rental-platform');
+      this.router.navigateByUrl('/car-rental-platform');
   }
 
   public onClickLogin() {

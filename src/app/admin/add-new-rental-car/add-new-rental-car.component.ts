@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Vehicle } from 'src/app/core/models/vehicle';
@@ -9,15 +9,12 @@ import { VehicleService } from 'src/app/shared/services/vehicle.service';
   templateUrl: './add-new-rental-car.component.html',
   styleUrls: ['./add-new-rental-car.component.scss']
 })
-export class AddNewRentalCarComponent {
+export class AddNewRentalCarComponent implements OnInit {
   public newCarForm!: FormGroup;
   public id?: string;
-    
-  constructor(private route: ActivatedRoute,
-    private vehicleService: VehicleService,
-    private router: Router
-  ) {
-  }
+  private readonly route = inject(ActivatedRoute);
+  private readonly vehicleService = inject(VehicleService);
+  private readonly router = inject(Router);
 
   ngOnInit(): void {
     this.newCarForm = new FormGroup({
@@ -49,9 +46,10 @@ export class AddNewRentalCarComponent {
     });
   }
 
-    onFileChange(event: any) {
-      if (event.target.files && event.target.files.length > 0) {
-        const files = Array.from(event.target.files) as File[];
+    onFileChange(event: Event) {
+      const target = event.target as HTMLInputElement;
+      if (target.files && target.files.length > 0) {
+        const files = Array.from(target.files) as File[];
         const reader = new FileReader();
         const images: string[] = [];
 

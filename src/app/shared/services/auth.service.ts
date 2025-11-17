@@ -1,14 +1,14 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { User } from '../../core/models/user';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private main_url: string = "http://localhost:3000";
+  private main_url = "http://localhost:3000";
 
-  constructor(private http: HttpClient) { }
+  private readonly http = inject(HttpClient);
 
   public register(user: User) {
     return this.http.post(this.main_url + '/register', user);

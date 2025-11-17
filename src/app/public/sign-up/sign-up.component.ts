@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Role, User } from 'src/app/core/models/user';
@@ -23,13 +23,14 @@ export function passwordMatchValidator(passwordKey: string, confirmPasswordKey: 
 })
 export class SignUpComponent implements OnInit {
   public signUpForm!: FormGroup;
-  public reservedEmailOrUsername: boolean = false;
+  public reservedEmailOrUsername = false;
+
+  private readonly router = inject(Router);
+  private readonly authService = inject(AuthService);
     
-  constructor(private router: Router,
-    private authService: AuthService
-  ) {
+  constructor() {
     if(localStorage.getItem('user_id'))
-      router.navigateByUrl('/car-rental-platform');
+      this.router.navigateByUrl('/car-rental-platform');
   }
 
   ngOnInit(): void {

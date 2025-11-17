@@ -40,8 +40,8 @@
             </td>
             <td>
                 <div class="buttons" *ngIf="getElerheto(booking.startDate)">
-                    <i class="fa-solid fa-pencil" (click)="onClickUpdate(booking._id)"></i>
-                    <i class="fa-solid fa-trash-can" (click)="onClickDelete(booking._id)"></i>
+                    <i class="fa-solid fa-pencil" tabindex="0" role="button" (keyup.enter)="onClickUpdate()" (click)="onClickUpdate(booking._id)"></i>
+                    <i class="fa-solid fa-trash-can" tabindex="0" role="button" (keyup.delete)="onClickDelete()" (click)="onClickDelete(booking._id)"></i>
                 </div>
             </td>
         </tr>

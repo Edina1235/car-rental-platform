@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ExtraService } from 'src/app/core/models/extra-services';
@@ -9,15 +9,12 @@ import { ExtraServiceService } from 'src/app/shared/services/extra-service.servi
   templateUrl: './add-new-extra-service.component.html',
   styleUrls: ['./add-new-extra-service.component.scss']
 })
-export class AddNewExtraServiceComponent {
-public newExtraServiceForm!: FormGroup;
-id?: string;
-    
-  constructor(private router: Router,
-    private extraServiceService: ExtraServiceService,
-    private route: ActivatedRoute
-  ) {
-  }
+export class AddNewExtraServiceComponent implements OnInit {
+  public newExtraServiceForm!: FormGroup;
+  id?: string;
+  private readonly router = inject(Router);
+  private readonly extraServiceService = inject(ExtraServiceService);
+  private readonly route = inject(ActivatedRoute);
 
   ngOnInit(): void {
     this.newExtraServiceForm = new FormGroup({

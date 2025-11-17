@@ -4,8 +4,8 @@
         <div class="login-box">
             <form [formGroup]="this.loginForm">
                 <div class="form-item">
-                    <label>Email:</label>
-                    <input formControlName="email" type="email"/>
+                    <label for="email">Email:</label>
+                    <input id="email" formControlName="email" type="email"/>
                     <div *ngIf="this.loginForm.get('email')?.invalid && this.loginForm.get('email')?.touched && !this.loginForm.get('email')?.errors!['required']" class="error-box">
                         Email is invalid.
                     </div>
@@ -14,8 +14,8 @@
                     </div>
                 </div>
                 <div class="form-item">
-                    <label>Password:</label>
-                    <input formControlName="password" type="password"/>
+                    <label for="password">Password:</label>
+                    <input id="password" formControlName="password" type="password"/>
                    <div *ngIf="this.loginForm.get('password')?.invalid && this.loginForm.get('password')?.touched && this.loginForm.get('password')?.errors!['required']" class="error-box">
                         Password is required.
                     </div>
@@ -23,6 +23,6 @@
                 <button [disabled]="this.loginForm.invalid" (click)="onClickLogin()">Login</button>
             </form>
         </div>
-        <p>Go to <span class="link" (click)="onClickSignUp()">sign up</span>!</p>
+        <p>Go to <span class="link" tabindex="0" role="button" (keyup.space)="onClickSignUp()" (click)="onClickSignUp()">sign up</span>!</p>
     </div>
 </div>

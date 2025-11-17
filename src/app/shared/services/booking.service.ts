@@ -1,5 +1,5 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
 import { Bookings } from 'src/app/core/models/bookings';
 
 @Injectable({
@@ -8,7 +8,7 @@ import { Bookings } from 'src/app/core/models/bookings';
 export class BookingService {
   public main_url = 'http://localhost:3000/bookings';
 
-  constructor(private http: HttpClient) { }
+  private readonly http = inject(HttpClient);
 
   public getBookings() {
     return this.http.get(this.main_url, {withCredentials: true});

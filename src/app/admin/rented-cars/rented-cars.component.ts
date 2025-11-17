@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Bookings } from 'src/app/core/models/bookings';
 import { ExtraService } from 'src/app/core/models/extra-services';
 import { User } from 'src/app/core/models/user';
@@ -13,17 +13,16 @@ import { VehicleService } from 'src/app/shared/services/vehicle.service';
   templateUrl: './rented-cars.component.html',
   styleUrls: ['./rented-cars.component.scss']
 })
-export class RentedCarsComponent {
+export class RentedCarsComponent implements OnInit {
   bookings?: Bookings[];
   users?: User[];
   vehicles?: Vehicle[];
   extraServices?: ExtraService[];
 
-  constructor(private bookingService: BookingService,
-    private userService: UserService,
-    private extraService: ExtraServiceService,
-    private vehicleService: VehicleService
-  ) {}
+  private readonly bookingService = inject(BookingService);
+  private readonly userService = inject(UserService);
+  private readonly extraService = inject(ExtraServiceService);
+  private readonly vehicleService = inject(VehicleService);
 
   ngOnInit() {
     this.bookingService.getBookings().subscribe({

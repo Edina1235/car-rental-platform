@@ -6,7 +6,7 @@ import { AuthService } from 'src/app/shared/services/auth.service';
 export const AuthGuard: CanActivateFn = (route, state) => {
   const r = inject(Router);
   return inject(AuthService).checkAuth().pipe(map(isAuthenticated => {
-    console.log(isAuthenticated);
+    console.log(route, state);
     if (!isAuthenticated) {
       // navigation
       r.navigateByUrl('/login');

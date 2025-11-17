@@ -11,7 +11,7 @@
                 <td>{{user.name}}</td>
                 <td>{{user.email}}</td>
                 <td>{{user.createdAt | date:'yyyy-MM-dd'}}</td>
-                <td><i class="fa-solid fa-trash-can" (click)="onClickDelete(user._id)"></i></td>
+                <td><i class="fa-solid fa-trash-can" tabindex="0" role="button" (keyup.delete)="onClickDelete()" (click)="onClickDelete(user._id)"></i></td>
             </ng-container>
         </tr>
     </table>
