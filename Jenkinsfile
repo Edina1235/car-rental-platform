@@ -76,10 +76,12 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                if (isUnix()) {
-                    sh 'bash deploy.yml'
-                } else {
-                    bat 'bash deploy.yml'
+                script {
+                    if (isUnix()) {
+                        sh 'bash deploy.yml'
+                    } else {
+                        bat 'bash deploy.yml'
+                    }
                 }
             }
         }
