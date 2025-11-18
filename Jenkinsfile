@@ -76,7 +76,11 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                echo 'Deploy step - replace with your scp/pscp/ansible command'
+                if (isUnix()) {
+                    sh 'bash deploy.yml'
+                } else {
+                    bat 'bash deploy.yml'
+                }
             }
         }
     }
