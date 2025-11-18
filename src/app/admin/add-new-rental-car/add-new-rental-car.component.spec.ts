@@ -3,6 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { AddNewRentalCarComponent } from './add-new-rental-car.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 describe('AddNewRentalCarComponent', () => {
   let component: AddNewRentalCarComponent;
@@ -11,7 +12,7 @@ describe('AddNewRentalCarComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ AddNewRentalCarComponent ],
-      imports: [ HttpClientTestingModule, RouterTestingModule ],
+      imports: [ HttpClientTestingModule, RouterTestingModule, ReactiveFormsModule ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
     .compileComponents();
