@@ -77,8 +77,11 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    bat 'wsl'
-                    sh 'ansible-playbook -i inventory deploy.yml'
+                    if (isUnix()) {
+                        sh 'ansible-playbook -i inventory deploy.yml'
+                    } else {
+                        bat 'wsl ansible-playbook -i inventory deploy.yml'
+                    }
                 }
             }
         }
