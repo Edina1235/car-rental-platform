@@ -77,6 +77,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
+                    bat 'wsl'
                     sh 'ansible-playbook -i inventory deploy.yml'
                 }
             }
