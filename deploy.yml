@@ -8,9 +8,9 @@
         state: absent
 
     - name: Hozd létre újra az app könyvtárát
-        file:
-          path: /var/www/html/angular-app/
-          state: directory
+      file:
+        path: /var/www/html/angular-app/
+        state: directory
 
     - name: Másold át az Angular build fájljait
       copy:
