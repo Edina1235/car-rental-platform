@@ -35,20 +35,13 @@
         group: www-data
         mode: '0755'
 
-    - name: Configure Nginx for Angular SPA
+    - name: Copy custom Nginx config
       copy:
+        src: "{{ playbook_dir }}/nginx.conf"
         dest: /etc/nginx/sites-available/{{ app_name }}
-        content: |
-          server {
-              listen 80;
-              server_name _;
-              root {{ nginx_root }};
-              index index.html;
-
-              location / {
-                  try_files $uri $uri/ /index.html;
-              }
-          }
+        owner: root
+        group: root
+        mode: '0644'
       notify: Reload Nginx
 
     - name: Enable Nginx site
