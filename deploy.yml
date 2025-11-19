@@ -4,7 +4,7 @@
   become: yes
   vars:
     app_name: my-angular-app
-    build_dir: "{{ playbook_dir }}/dist/my-angular-app"  # Angular build helye
+    build_dir: "/mnt/c/ProgramData/Jenkins/.jenkins/workspace/CarRentalPlatform (pipeline)/dist/my-angular-app"
     nginx_root: /var/www/my-angular-app
     nginx_conf_src: "{{ playbook_dir }}/nginx.conf"
 
