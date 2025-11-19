@@ -1,12 +1,10 @@
----
 - name: Deploy Angular app with Nginx
   hosts: localhost
-  become: yes
+  become: yes 
   vars:
     app_name: my-angular-app
-    build_dir: "/mnt/c/ProgramData/Jenkins/.jenkins/workspace/CarRentalPlatform (pipeline)/dist/my-angular-app"
+    build_dir: ./dist
     nginx_root: /var/www/my-angular-app
-    nginx_conf_src: "{{ playbook_dir }}/nginx.conf"
 
   tasks:
     - name: Install Nginx
@@ -37,18 +35,9 @@
         group: www-data
         mode: '0755'
 
-    - name: Ensure correct permissions recursively
-      file:
-        path: "{{ nginx_root }}"
-        state: directory
-        recurse: yes
-        owner: www-data
-        group: www-data
-        mode: '0755'
-
-    - name: Copy custom Nginx config
+    - name: Configure Nginx for Angular SPA
       copy:
-        src: "{{ nginx_conf_src }}"
+        src: "{{ playbook_dir }}/nginx.conf"
         dest: /etc/nginx/sites-available/{{ app_name }}
         owner: root
         group: root
@@ -60,12 +49,6 @@
         src: /etc/nginx/sites-available/{{ app_name }}
         dest: /etc/nginx/sites-enabled/{{ app_name }}
         state: link
-      notify: Reload Nginx
-
-    - name: Remove default site (optional, elkerüli az ütközést)
-      file:
-        path: /etc/nginx/sites-enabled/default
-        state: absent
       notify: Reload Nginx
 
   handlers:
