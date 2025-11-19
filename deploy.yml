@@ -1,18 +1,65 @@
-- hosts: localhost
-  become: yes
+- name: Deploy Angular app with Nginx
+  hosts: localhost
+  become: yes 
+  vars:
+    app_name: my-angular-app
+    build_dir: ./dist
+    nginx_root: /var/www/my-angular-app
 
   tasks:
-    - name: Töröld a régi Angular buildet
-      file:
-        path: /var/www/html/angular-app/
-        state: absent
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
 
-    - name: Hozd létre újra az app könyvtárát
+    - name: Ensure Nginx service is started and enabled
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: Create web root directory
       file:
-        path: /var/www/html/angular-app/
+        path: "{{ nginx_root }}"
         state: directory
+        owner: www-data
+        group: www-data
+        mode: '0755'
 
-    - name: Másold át az Angular build fájljait
+    - name: Copy Angular build to Nginx root
       copy:
-        src: ./dist/
-        dest: /var/www/html/angular-app/
+        src: "{{ build_dir }}/"
+        dest: "{{ nginx_root }}/"
+        owner: www-data
+        group: www-data
+        mode: '0755'
+
+    - name: Configure Nginx for Angular SPA
+      copy:
+        dest: /etc/nginx/sites-available/{{ app_name }}
+        content: |
+          server {
+              listen 80;
+              server_name _;
+              root {{ nginx_root }};
+              index index.html;
+
+              location / {
+                  try_files $uri $uri/ /index.html;
+              }
+          }
+      notify: Reload Nginx
+
+    - name: Enable Nginx site
+      file:
+        src: /etc/nginx/sites-available/{{ app_name }}
+        dest: /etc/nginx/sites-enabled/{{ app_name }}
+        state: link
+      notify: Reload Nginx
+
+  handlers:
+    - name: Reload Nginx
+      service:
+        name: nginx
+        state: reloaded
