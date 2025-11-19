@@ -78,9 +78,9 @@ pipeline {
             steps {
                 script {
                     if (isUnix()) {
-                        sh 'sudo ansible-playbook -i inventory deploy.yml'
+                        sh 'sudo ansible-playbook deploy.yml -i localhost'
                     } else {
-                        bat 'wsl sudo ansible-playbook -i inventory deploy.yml'
+                        bat 'wsl sudo ansible-playbook deploy.yml -i localhost'
                     }
                 }
             }
