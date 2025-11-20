@@ -76,10 +76,12 @@ pipeline {
 
         stage('Build Backend') {
             steps {
-                if (isUnix()) {
-                    sh 'npm install --prefix backend'
-                } else {
-                    bat 'npm install --prefix backend'
+                script {
+                    if (isUnix()) {
+                        sh 'npm install --prefix backend'
+                    } else {
+                        bat 'npm install --prefix backend'
+                    }
                 }
             }
         }
