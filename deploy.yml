@@ -5,6 +5,7 @@
     app_name: my-angular-app
     build_dir: ./dist
     nginx_root: /var/www/my-angular-app
+    backend_dir: ./backend
 
   tasks:
     - name: Install Nginx
