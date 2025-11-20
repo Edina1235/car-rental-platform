@@ -35,6 +35,38 @@
         group: www-data
         mode: '0755'
 
+    - name: Install PM2 globally
+      npm:
+        name: pm2
+        global: yes
+        state: present
+
+    - name: Create backend directory
+      file:
+        path: /var/www/backend
+        state: directory
+        owner: www-data
+        group: www-data
+        mode: '0755'
+
+    - name: Upload backend files
+      copy:
+        src: "{{ backend_dir }}/"
+        dest: /var/www/backend/
+        owner: www-data
+        group: www-data
+        mode: '0755'
+
+    - name: Install backend dependencies
+      npm:
+        path: /var/www/backend
+        production: yes
+
+    - name: Start backend with PM2
+      shell: |
+        pm2 start server.js --name backend || pm2 restart backend
+        pm2 save
+
     - name: Configure Nginx for Angular SPA
       copy:
         src: "{{ playbook_dir }}/nginx.conf"
