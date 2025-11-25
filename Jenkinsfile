@@ -74,13 +74,13 @@ pipeline {
             }
         }
 
-        stage('Build Backend') {
+        stage('Start backend') {
             steps {
                 script {
                     if (isUnix()) {
-                        sh 'npm install --prefix backend'
+                        sh 'pm2 start npm --name backend -- run start-server || pm2 restart backend'
                     } else {
-                        bat 'npm install --prefix backend'
+                        bat 'pm2 start npm --name backend -- run start-server || pm2 restart backend'
                     }
                 }
             }

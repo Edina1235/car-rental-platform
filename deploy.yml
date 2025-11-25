@@ -1,24 +1,51 @@
-- name: Deploy Angular app with Nginx
+- name: Deploy Car Rental Platform
   hosts: localhost
-  become: yes 
+  become: yes
   vars:
     app_name: my-angular-app
     build_dir: ./dist
     nginx_root: /var/www/my-angular-app
-    backend_dir: ./backend
+    project_root: "{{ playbook_dir }}"  # Jenkins workspace root, ahol package.json van
+    backend_script: "start-server"      # npm script a backend indításához
 
   tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install Node.js 20
+      shell: |
+        curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+        apt-get install -y nodejs
+      args:
+        executable: /bin/bash
+
     - name: Install Nginx
       apt:
         name: nginx
         state: present
-        update_cache: yes
 
     - name: Ensure Nginx service is started and enabled
       service:
         name: nginx
         state: started
         enabled: yes
+
+    - name: Install PM2 globally
+      npm:
+        name: pm2
+        global: yes
+        state: present
+
+    - name: Install project dependencies (frontend + backend)
+      npm:
+        path: "{{ project_root }}"
+        production: no
+
+    - name: Build Angular frontend
+      command: npm run build -- --configuration production
+      args:
+        chdir: "{{ project_root }}"
 
     - name: Create web root directory
       file:
@@ -36,37 +63,12 @@
         group: www-data
         mode: '0755'
 
-    - name: Install PM2 globally
-      npm:
-        name: pm2
-        global: yes
-        state: present
-
-    - name: Create backend directory
-      file:
-        path: /var/www/backend
-        state: directory
-        owner: www-data
-        group: www-data
-        mode: '0755'
-
-    - name: Upload backend files
-      copy:
-        src: "{{ backend_dir }}/"
-        dest: /var/www/backend/
-        owner: www-data
-        group: www-data
-        mode: '0755'
-
-    - name: Install backend dependencies
-      npm:
-        path: /var/www/backend
-        production: yes
-
     - name: Start backend with PM2
       shell: |
-        pm2 start server.js --name backend || pm2 restart backend
+        pm2 start npm --name backend -- run {{ backend_script }} || pm2 restart backend
         pm2 save
+      args:
+        chdir: "{{ project_root }}"
 
     - name: Configure Nginx for Angular SPA
       copy:
