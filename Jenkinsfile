@@ -32,7 +32,7 @@ pipeline {
                     if (isUnix()) {
                         sh 'npm install'
                     } else {
-                        bat 'npm install'
+                        bat 'wsl npm install'
                     }
                 }
             }
@@ -44,7 +44,7 @@ pipeline {
                     if (isUnix()) {
                         sh 'npm run lint || echo "lint failed or not configured"'
                     } else {
-                        bat 'npm run lint || echo lint failed or not configured'
+                        bat 'wsl npm run lint || echo lint failed or not configured'
                     }
                 }
             }
@@ -56,7 +56,7 @@ pipeline {
                     if (isUnix()) {
                         sh 'npm test -- --watch=false || echo "tests failed or not configured"'
                     } else {
-                        bat 'npm test -- --watch=false || echo tests failed or not configured'
+                        bat 'wsl npm test -- --watch=false || echo tests failed or not configured'
                     }
                 }
             }
@@ -68,7 +68,7 @@ pipeline {
                     if (isUnix()) {
                         sh 'npm run build -- --configuration production || echo build failed'
                     } else {
-                        bat 'npm run build -- --configuration production || echo build failed'
+                        bat 'wsl npm run build -- --configuration production || echo build failed'
                     }
                 }
             }
