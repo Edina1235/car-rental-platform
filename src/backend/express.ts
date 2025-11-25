@@ -36,7 +36,7 @@ app.use('/extra-service', configureExtraServiceRoutes(express.Router()));
 app.use('/bookings', configureBookingRoutes(express.Router()));
 app.use('/availability', configureAvailabilityRoutes(express.Router()));
 
-app.listen(3000, () => console.log('Server is running on port 3000'));
+app.listen(3000, '0.0.0.0', () => console.log('Server is running on port 3000'));
 
 // MongoDB Atlas URI
 const uri = 'mongodb+srv://carRental:carRental123@cluster0.stbcjzc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
