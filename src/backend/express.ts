@@ -10,7 +10,7 @@ import { configurePassport } from './utils';
 
 const app = express();
 app.use(cors({
-  origin: 'http://localhost:4200', // vagy '*', ha mindenkit engedsz (fejlesztéshez)
+  origin: 'http://localhost', // vagy '*', ha mindenkit engedsz (fejlesztéshez)
   credentials: true // ha cookie-t vagy session-t is használsz
 }));
 app.use(express.json());
