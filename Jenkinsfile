@@ -80,7 +80,7 @@ pipeline {
                     if (isUnix()) {
                         sh 'pm2 start npm --name backend -- run start-server || pm2 restart backend'
                     } else {
-                        bat 'pm2 start npm --name backend -- run start-server || pm2 restart backend'
+                        bat 'wsl pm2 start npm --name backend -- run start-server || pm2 restart backend'
                     }
                 }
             }
