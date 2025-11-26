@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 export class Bcrypt {
   static SALT_ROUNDS = 10;
