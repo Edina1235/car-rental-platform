@@ -6,7 +6,7 @@ import { User } from '../../core/models/user';
   providedIn: 'root'
 })
 export class AuthService {
-  private main_url = "http://localhost:3000";
+  private main_url = "http://localhost/api";
 
   private readonly http = inject(HttpClient);
 

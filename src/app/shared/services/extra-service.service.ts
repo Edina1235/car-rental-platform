@@ -6,7 +6,7 @@ import { ExtraService } from 'src/app/core/models/extra-services';
   providedIn: 'root'
 })
 export class ExtraServiceService {
-  public main_url = 'http://localhost:3000/extra-service';
+  public main_url = 'http://localhost/api/extra-service';
 
   private readonly http = inject(HttpClient);
 

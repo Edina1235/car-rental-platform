@@ -7,7 +7,7 @@ import { User } from '../../core/models/user';
 })
 export class UserService {
   public user?: User;
-  public main_url = 'http://localhost:3000/user';
+  public main_url = 'http://localhost/api/user';
 
   private readonly http = inject(HttpClient);
 

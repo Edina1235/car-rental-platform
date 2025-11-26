@@ -6,7 +6,7 @@ import { Bookings } from 'src/app/core/models/bookings';
   providedIn: 'root'
 })
 export class BookingService {
-  public main_url = 'http://localhost:3000/bookings';
+  public main_url = 'http://localhost/api/bookings';
 
   private readonly http = inject(HttpClient);
 

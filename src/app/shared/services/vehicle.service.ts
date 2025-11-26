@@ -6,7 +6,7 @@ import { Vehicle } from 'src/app/core/models/vehicle';
   providedIn: 'root'
 })
 export class VehicleService {
-  public main_url = 'http://localhost:3000/vehicles';
+  public main_url = 'http://localhost/api/vehicles';
 
   private readonly http = inject(HttpClient);
 
