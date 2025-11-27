@@ -4,10 +4,13 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build:frontend": "ng build --configuration production",
+    "build:backend": "tsc -p src/backend/tsconfig-be.json --outDir dist/backend",
+    "build": "npm run build:frontend && npm run build:backend",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "start-server": "ts-node -P src/backend/tsconfig-be.json src/backend/express.ts",
+    "start:backend": "node dist/backend/express.js",
+    "start-server": "npm run start:backend",
     "lint": "ng lint"
   },
   "private": true,

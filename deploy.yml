@@ -2,52 +2,74 @@
   hosts: localhost
   become: yes
   vars:
-    app_name: my-angular-app
-    build_dir: ./dist
-    nginx_root: /var/www/my-angular-app
-    project_root: "{{ playbook_dir }}"  # Jenkins workspace root, ahol package.json van
-    backend_script: "start-server"      # npm script a backend indításához
+    app_name: car-rental-platform
+    # Projekt gyökér, ahol a package.json található (általában a playbook-dir, azaz Jenkins workspace)
+    project_root: "{{ playbook_dir }}"
+    # Angular build kimenete (ha más, állítsd át)
+    build_dir: "{{ project_root }}/dist"
+    # Hova kerüljenek az nginx által szolgáltatott fájlok
+    nginx_root: /var/www/my-angular-app/car-rental-platform
+    pm2_user: "{{ ansible_user | default('www-data') }}"
+    mongodb_uri: "mongodb+srv://carRental:carRental123@cluster0.stbcjzc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+    node_setup_script_url: "https://deb.nodesource.com/setup_20.x"
 
   tasks:
-    - name: Update apt cache
+    - name: Ensure apt cache is updated
       apt:
         update_cache: yes
+        cache_valid_time: 3600
 
-    - name: Install Node.js 20
+    - name: Install prerequisite packages
+      apt:
+        name:
+          - curl
+          - gnupg
+          - ca-certificates
+          - nginx
+          - rsync
+          - tar
+          - build-essential
+        state: present
+
+    - name: Install Node.js 20.x
       shell: |
-        curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+        curl -fsSL {{ node_setup_script_url }} | bash -
         apt-get install -y nodejs
       args:
         executable: /bin/bash
 
-    - name: Install Nginx
-      apt:
-        name: nginx
-        state: present
-
-    - name: Ensure Nginx service is started and enabled
+    - name: Ensure nginx is running
       service:
         name: nginx
         state: started
         enabled: yes
 
-    - name: Install PM2 globally
+    - name: Install pm2 globally
       npm:
         name: pm2
         global: yes
         state: present
+      environment:
+        PATH: /usr/bin:/usr/local/bin:/bin
 
-    - name: Install project dependencies (frontend + backend)
+    - name: Ensure project_root exists
+      file:
+        path: "{{ project_root }}"
+        state: directory
+
+    - name: Install project dependencies (dev+prod) in project_root
       npm:
         path: "{{ project_root }}"
         production: no
+      environment:
+        PATH: /usr/bin:/usr/local/bin:/bin
 
-    - name: Build Angular frontend
-      command: npm run build -- --configuration production
+    - name: Build frontend + backend (npm run build)
+      command: npm run build
       args:
         chdir: "{{ project_root }}"
 
-    - name: Create web root directory
+    - name: Create nginx web root directory
       file:
         path: "{{ nginx_root }}"
         state: directory
@@ -55,36 +77,76 @@
         group: www-data
         mode: '0755'
 
-    - name: Copy Angular build to Nginx root
-      copy:
+    - name: Sync Angular build to nginx root
+      synchronize:
         src: "{{ build_dir }}/"
         dest: "{{ nginx_root }}/"
+        delete: yes
+      delegate_to: localhost
+
+    - name: Ensure nginx root ownership and permissions
+      file:
+        path: "{{ nginx_root }}"
+        recurse: yes
         owner: www-data
         group: www-data
-        mode: '0755'
 
-    - name: Start backend with PM2
+    - name: Upload templated ecosystem to project root
+      template:
+        src: ecosystem.config.js.j2
+        dest: "{{ project_root }}/ecosystem.config.js"
+        owner: "{{ pm2_user }}"
+        group: "{{ pm2_user }}"
+        mode: '0644'
+
+    - name: Start / restart backend with PM2 using ecosystem
+      # If mongodb_uri is provided, export it before starting so the process gets it
       shell: |
-        pm2 start npm --name backend -- run {{ backend_script }} || pm2 restart backend
+        export MONGODB_URI="{{ mongodb_uri }}"
+        # remove any old process with same name (ignore errors)
+        pm2 delete backend || true
+        pm2 start {{ project_root }}/ecosystem.config.js --env production
         pm2 save
       args:
         chdir: "{{ project_root }}"
+      environment:
+        PATH: /usr/bin:/usr/local/bin:/bin
 
-    - name: Configure Nginx for Angular SPA
+    - name: Create/Copy nginx site file
       copy:
         src: "{{ playbook_dir }}/nginx.conf"
-        dest: /etc/nginx/sites-available/{{ app_name }}
+        dest: "/etc/nginx/sites-available/{{ app_name }}"
         owner: root
         group: root
         mode: '0644'
       notify: Reload Nginx
 
-    - name: Enable Nginx site
+    - name: Enable nginx site (symlink)
       file:
-        src: /etc/nginx/sites-available/{{ app_name }}
-        dest: /etc/nginx/sites-enabled/{{ app_name }}
+        src: "/etc/nginx/sites-available/{{ app_name }}"
+        dest: "/etc/nginx/sites-enabled/{{ app_name }}"
         state: link
+        force: yes
       notify: Reload Nginx
+
+    - name: Test nginx configuration
+      command: nginx -t
+      register: nginx_test
+      failed_when: nginx_test.rc != 0
+      changed_when: false
+
+    - name: Reload nginx (ensure final)
+      service:
+        name: nginx
+        state: reloaded
+
+    - name: Ensure pm2 startup is configured (systemd)
+      shell: |
+        pm2 startup systemd -u {{ pm2_user }} --hp /home/{{ pm2_user }} || true
+        pm2 save || true
+      args:
+        executable: /bin/bash
+      changed_when: false
 
   handlers:
     - name: Reload Nginx
