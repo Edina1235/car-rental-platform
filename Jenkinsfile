@@ -66,21 +66,11 @@ pipeline {
             steps {
                 script {
                     if (isUnix()) {
-                        sh 'npm run build -- --configuration production || echo build failed'
+                        sh 'npm run build:frontend -- --configuration production'
+                        sh 'npm run build:backend'
                     } else {
-                        bat 'wsl npm run build -- --configuration production || echo build failed'
-                    }
-                }
-            }
-        }
-
-        stage('Start backend') {
-            steps {
-                script {
-                    if (isUnix()) {
-                        sh 'pm2 start npm --name backend -- run start-server || pm2 restart backend'
-                    } else {
-                        bat 'wsl pm2 start npm --name backend -- run start-server || pm2 restart backend'
+                        bat 'wsl npm run build:frontend -- --configuration production'
+                        bat 'wsl npm run build:backend'
                     }
                 }
             }
@@ -90,9 +80,9 @@ pipeline {
             steps {
                 script {
                     if (isUnix()) {
-                        sh 'sudo ansible-playbook deploy.yml -i localhost'
+                        sh 'sudo ansible-playbook deploy.yml -i localhost -e \"mongodb_uri=${MONGODB_URI}\"'
                     } else {
-                        bat 'wsl sudo ansible-playbook deploy.yml -i localhost'
+                        bat 'wsl sudo ansible-playbook deploy.yml -i localhost -e \"mongodb_uri=${MONGODB_URI}\"'
                     }
                 }
             }
