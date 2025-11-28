@@ -64,8 +64,13 @@
       environment:
         PATH: /usr/bin:/usr/local/bin:/bin
 
-    - name: Build frontend + backend (npm run build)
-      command: npm run build
+    - name: Build frontend
+      command: npm run build:frontend
+      args:
+        chdir: "{{ project_root }}"
+
+    - name: Build backend
+      command: npm run build:backend
       args:
         chdir: "{{ project_root }}"
 
