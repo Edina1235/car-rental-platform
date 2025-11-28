@@ -6,7 +6,7 @@
     project_root: "{{ playbook_dir }}"                # Jenkins workspace helye (ahol a build futott)
     build_dir: "{{ project_root }}/dist"              # Ellenőrizd: ha Angular dist/<app-name>, állítsd erre
     nginx_root: /var/www/car-rental-platform
-    pm2_user: "{{ ansible_user | default('deploy') }}"
+    pm2_user: "{{ ansible_user | default('p_liteook') }}"
     mongodb_uri: "{{ 'mongodb+srv://carRental:carRental123@cluster0.stbcjzc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0' | default('') }}"
     node_setup_script_url: "https://deb.nodesource.com/setup_20.x"
 
