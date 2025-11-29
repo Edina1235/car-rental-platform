@@ -6,7 +6,7 @@ import { VehicleAvailability } from 'src/app/core/models/vehicle-availability';
   providedIn: 'root'
 })
 export class VehicleAvailabilityService {
-  public main_url = 'http://localhost/api/availability';
+  public main_url = 'http://localhost:3000/availability';
 
   private readonly http = inject(HttpClient);
 
