@@ -78,6 +78,8 @@
         mode: '0644'
 
     - name: Start / restart backend with PM2 using ecosystem
+      become: yes
+      become_user: "{{ pm2_user }}"
       shell: |
         {% if mongodb_uri != "" %}
         export MONGODB_URI="{{ mongodb_uri }}"
