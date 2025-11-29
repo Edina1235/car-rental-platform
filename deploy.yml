@@ -8,7 +8,7 @@
     nginx_root: /var/www/car-rental-platform
     pm2_user: "{{ ansible_user | default('p_liteook') }}"
     mongodb_uri: "{{ 'mongodb+srv://carRental:carRental123@cluster0.stbcjzc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0' | default('') }}"
-    node_setup_script_url: "https://deb.nodesource.com/setup_20.x"
+    # node_setup_script_url: "https://deb.nodesource.com/setup_20.x"
 
   tasks:
     - name: Ensure apt cache is updated
@@ -26,12 +26,12 @@
           - tar
         state: present
 
-    - name: Install Node.js 20.x
-      shell: |
-        curl -fsSL {{ node_setup_script_url }} | bash -
-        apt-get install -y nodejs
-      args:
-        executable: /bin/bash
+    # - name: Install Node.js 20.x
+    #   shell: |
+    #     curl -fsSL {{ node_setup_script_url }} | bash -
+    #     apt-get install -y nodejs
+    #   args:
+    #     executable: /bin/bash
 
     - name: Ensure nginx is running
       service:

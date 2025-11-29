@@ -9,7 +9,6 @@
     "build": "npm run build:frontend && npm run build:backend",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "start:backend": "node backend/src/backend/express.js",
     "lint": "ng lint"
   },
   "private": true,

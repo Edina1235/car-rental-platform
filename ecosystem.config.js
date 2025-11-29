@@ -8,9 +8,8 @@ module.exports = {
       args: "backend/src/backend/express.js",
       instances: 1,
       exec_mode: "cluster",
-      watch: false,
-      env_production: {
-        NODE_ENV: "production",
+      watch: true,
+      env: {
         PORT: 3000,
         MONGODB_URI: "{{ mongodb_uri }}"
       }
