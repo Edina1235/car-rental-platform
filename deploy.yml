@@ -51,7 +51,18 @@
       synchronize:
         src: "{{ build_dir }}/"
         dest: "{{ nginx_root }}/"
-        delete: yes
+      delegate_to: localhost
+      
+    - name: Sync Angular build to nginx root
+      synchronize:
+        src: "{{ project_root }}/package.json"
+        dest: "{{ nginx_root }}/package.json"
+      delegate_to: localhost
+      
+    - name: Sync Angular build to nginx root
+      synchronize:
+        src: "{{ project_root }}/node_modules"
+        dest: "{{ nginx_root }}/node_modules"
       delegate_to: localhost
 
     - name: Ensure nginx root ownership and permissions
