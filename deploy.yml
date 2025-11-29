@@ -56,13 +56,13 @@
     - name: Sync package.json
       synchronize:
         src: "{{ project_root }}/package.json"
-        dest: "{{ nginx_root }}/backend/package.json"
+        dest: "{{ nginx_root }}/backend"
       delegate_to: localhost
 
     - name: Sync node_modules
       synchronize:
         src: "{{ project_root }}/node_modules"
-        dest: "{{ nginx_root }}/backend/node_modules"
+        dest: "{{ nginx_root }}/backend"
       delegate_to: localhost
 
     - name: Ensure nginx root ownership and permissions
