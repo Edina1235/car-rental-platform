@@ -71,7 +71,7 @@
 
     - name: Upload templated ecosystem to project root
       template:
-        src: ecosystem.config.js.j2
+        src: ecosystem.config.js
         dest: "{{ project_root }}/ecosystem.config.js"
         owner: "{{ pm2_user }}"
         group: "{{ pm2_user }}"
