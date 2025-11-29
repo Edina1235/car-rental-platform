@@ -5,7 +5,7 @@ module.exports = {
       cwd: "/var/www/car-rental-platform",
       // mutat az aktuális JS entry-re a repo-n belül
       script: "npm",
-      args: "start:backend",
+      args: "run start:backend",
       instances: 1,
       exec_mode: "cluster",
       watch: false,
