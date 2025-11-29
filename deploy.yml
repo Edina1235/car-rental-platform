@@ -83,7 +83,8 @@
         export MONGODB_URI="{{ mongodb_uri }}"
         {% endif %}
         pm2 delete backend || true
-        pm2 start {{ project_root }}/ecosystem.config.js --env production
+        # Indítás relatív útvonallal a project_root alapján (kikerüli a szóköz/parsing hibákat)
+        pm2 start ecosystem.config.js --env production
         pm2 save
       args:
         chdir: "{{ project_root }}"
