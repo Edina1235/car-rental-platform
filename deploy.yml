@@ -3,8 +3,8 @@
   become: yes
   vars:
     app_name: car-rental-platform
-    project_root: "{{ playbook_dir }}"                # Jenkins workspace helye (ahol a build futott)
-    build_dir: "{{ project_root }}/dist/car-rental-platform"              # Ellenőrizd: ha Angular dist/<app-name>, állítsd erre
+    project_root: "{{ playbook_dir }}"
+    build_dir: "{{ project_root }}/dist/car-rental-platform"
     nginx_root: /var/www/car-rental-platform
     pm2_user: "{{ ansible_user | default('p_liteook') }}"
     mongodb_uri: "{{ 'mongodb+srv://carRental:carRental123@cluster0.stbcjzc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0' | default('') }}"
@@ -124,6 +124,32 @@
         name: nginx
         state: reloaded
 
+    - name: Run Prometheus container
+      docker_container:
+        name: prometheus
+        image: prom/prometheus:latest
+        state: started
+        restart_policy: always
+        ports:
+          - "9090:9090"
+        volumes:
+          - "{{ project_root }}/prometheus.yml"
+
+    - name: Run Grafana container
+      docker_container:
+        name: grafana
+        image: grafana/grafana:latest
+        state: started
+        restart_policy: always
+        ports:
+          - "3001:3001"
+        volumes:
+          - "{{ project_root }}/datasources.yml"
+        environment:
+          - "GF_AUTH_DISABLE_LOGIN_FORM=true"
+          - "GF_AUTH_ANONYMUS_ENABLED=true"
+          - "GF_AUTH_ANONYMUS_ORG_ROLE=Admin"
+          - "GF_SERVER_HTTP_PORT=3001"
   handlers:
     - name: Reload Nginx
       service:

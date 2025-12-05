@@ -3,6 +3,7 @@ import mongoose, { ConnectOptions } from 'mongoose';
 import cors from 'cors';
 import expressSession from 'express-session';
 import passport from 'passport';
+import client from 'prom-client';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import { configureAuthRoutes, configureAvailabilityRoutes, configureBookingRoutes, configureExtraServiceRoutes, configureUserRoutes, configureVehicleRoutes } from './routes';
@@ -16,6 +17,10 @@ app.use(cors({
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+const register = new client.Registry();
+register.setDefaultLabels({ app: "car-rental-platform" });
+client.collectDefaultMetrics({ register });
 
 const sessionOptions: expressSession.SessionOptions = {
   secret: 'randomSecretHEHE',
@@ -35,6 +40,11 @@ app.use('/user', configureUserRoutes(express.Router()));
 app.use('/extra-service', configureExtraServiceRoutes(express.Router()));
 app.use('/bookings', configureBookingRoutes(express.Router()));
 app.use('/availability', configureAvailabilityRoutes(express.Router()));
+
+app.get('/metrics', async (req, res) => {
+  res.set('Content-Type', register.contentType);
+  res.end(await register.metrics());
+})
 
 app.listen(3000, '0.0.0.0', () => console.log('Server is running on port 3000'));
 

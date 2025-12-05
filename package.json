@@ -9,7 +9,8 @@
     "build": "npm run build:frontend && npm run build:backend",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "start-server": "ts-node -P src/backend/tsconfig-be.json src/backend/express.ts"
   },
   "private": true,
   "dependencies": {
@@ -37,6 +38,7 @@
     "ngx-daterangepicker-material": "^6.0.4",
     "passport": "0.7.0",
     "passport-local": "1.0.0",
+    "prom-client": "^15.1.3",
     "rxjs": "~7.8.0",
     "ts-node": "^10.9.2",
     "tslib": "^2.3.0",
