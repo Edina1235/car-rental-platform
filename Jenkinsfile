@@ -38,7 +38,7 @@ pipeline {
             }
         }
 
-       /* stage('Lint') {
+        stage('Lint') {
             steps {
                 script {
                     if (isUnix()) {
@@ -60,7 +60,7 @@ pipeline {
                     }
                 }
             }
-        }*/
+        }
 
         stage('Build') {
             steps {

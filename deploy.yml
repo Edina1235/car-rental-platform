@@ -31,125 +31,99 @@
         state: started
         enabled: yes
 
-    # - name: Install pm2 globally
-    #   npm:
-    #     name: pm2
-    #     global: yes
-    #     state: present
-    #   environment:
-    #     PATH: /usr/bin:/usr/local/bin:/bin
+    - name: Install pm2 globally
+      npm:
+        name: pm2
+        global: yes
+        state: present
+      environment:
+        PATH: /usr/bin:/usr/local/bin:/bin
 
-    # - name: Create ngnix root dir
-    #   file:
-    #     path: "{{ nginx_root }}"
-    #     state: directory
-    #     owner: www-data
-    #     group: www-data
-    #     mode: '0755'
+    - name: Create ngnix root dir
+      file:
+        path: "{{ nginx_root }}"
+        state: directory
+        owner: www-data
+        group: www-data
+        mode: '0755'
 
-    # - name: Sync Angular build to nginx root
-    #   synchronize:
-    #     src: "{{ build_dir }}/"
-    #     dest: "{{ nginx_root }}/"
-    #   delegate_to: localhost
+    - name: Sync Angular build to nginx root
+      synchronize:
+        src: "{{ build_dir }}/"
+        dest: "{{ nginx_root }}/"
+      delegate_to: localhost
       
-    # - name: Sync package.json
-    #   synchronize:
-    #     src: "{{ project_root }}/package.json"
-    #     dest: "{{ nginx_root }}/backend"
-    #   delegate_to: localhost
+    - name: Sync package.json
+      synchronize:
+        src: "{{ project_root }}/package.json"
+        dest: "{{ nginx_root }}/backend"
+      delegate_to: localhost
 
-    # - name: Sync node_modules
-    #   synchronize:
-    #     src: "{{ project_root }}/node_modules"
-    #     dest: "{{ nginx_root }}/backend"
-    #   delegate_to: localhost
+    - name: Sync node_modules
+      synchronize:
+        src: "{{ project_root }}/node_modules"
+        dest: "{{ nginx_root }}/backend"
+      delegate_to: localhost
 
-    # - name: Ensure nginx root ownership and permissions
-    #   file:
-    #     path: "{{ nginx_root }}"
-    #     recurse: yes
-    #     owner: www-data
-    #     group: www-data
+    - name: Ensure nginx root ownership and permissions
+      file:
+        path: "{{ nginx_root }}"
+        recurse: yes
+        owner: www-data
+        group: www-data
 
-    # - name: Upload templated ecosystem to project root
-    #   template:
-    #     src: ecosystem.config.js
-    #     dest: "{{ project_root }}/ecosystem.config.js"
-    #     owner: "{{ pm2_user }}"
-    #     group: "{{ pm2_user }}"
-    #     mode: '0644'
+    - name: Upload templated ecosystem to project root
+      template:
+        src: ecosystem.config.js
+        dest: "{{ project_root }}/ecosystem.config.js"
+        owner: "{{ pm2_user }}"
+        group: "{{ pm2_user }}"
+        mode: '0644'
 
-    # - name: Start / restart backend with PM2 using ecosystem
-    #   become: yes
-    #   become_user: "{{ pm2_user }}"
-    #   shell: |
-    #     {% if mongodb_uri != "" %}
-    #     export MONGODB_URI="{{ mongodb_uri }}"
-    #     {% endif %}
-    #     pm2 delete backend || true
-    #     # Indítás relatív útvonallal a project_root alapján (kikerüli a szóköz/parsing hibákat)
-    #     pm2 start ecosystem.config.js --env production
-    #     pm2 save
-    #   args:
-    #     chdir: "{{ project_root }}"
-    #   environment:
-    #     PATH: /usr/bin:/usr/local/bin:/bin
+    - name: Start / restart backend with PM2 using ecosystem
+      become: yes
+      become_user: "{{ pm2_user }}"
+      shell: |
+        {% if mongodb_uri != "" %}
+        export MONGODB_URI="{{ mongodb_uri }}"
+        {% endif %}
+        pm2 delete backend || true
+        # Indítás relatív útvonallal a project_root alapján (kikerüli a szóköz/parsing hibákat)
+        pm2 start ecosystem.config.js --env production
+        pm2 save
+      args:
+        chdir: "{{ project_root }}"
+      environment:
+        PATH: /usr/bin:/usr/local/bin:/bin
 
-    # - name: Copy nginx site file
-    #   copy:
-    #     src: "{{ playbook_dir }}/nginx.conf"
-    #     dest: "/etc/nginx/sites-available/{{ app_name }}"
-    #     owner: root
-    #     group: root
-    #     mode: '0644'
-    #   notify: Reload Nginx
+    - name: Copy nginx site file
+      copy:
+        src: "{{ playbook_dir }}/nginx.conf"
+        dest: "/etc/nginx/sites-available/{{ app_name }}"
+        owner: root
+        group: root
+        mode: '0644'
+      notify: Reload Nginx
 
-    # - name: Enable nginx site
-    #   file:
-    #     src: "/etc/nginx/sites-available/{{ app_name }}"
-    #     dest: "/etc/nginx/sites-enabled/{{ app_name }}"
-    #     state: link
-    #     force: yes
-    #   notify: Reload Nginx
+    - name: Enable nginx site
+      file:
+        src: "/etc/nginx/sites-available/{{ app_name }}"
+        dest: "/etc/nginx/sites-enabled/{{ app_name }}"
+        state: link
+        force: yes
+      notify: Reload Nginx
 
-    # - name: Test nginx configuration
-    #   command: nginx -t
-    #   register: nginx_test
-    #   failed_when: nginx_test.rc != 0
-    #   changed_when: false
+    - name: Test nginx configuration
+      command: nginx -t
+      register: nginx_test
+      failed_when: nginx_test.rc != 0
+      changed_when: false
 
-    # - name: Reload nginx
-    #   service:
-    #     name: nginx
-    #     state: reloaded
+    - name: Reload nginx
+      service:
+        name: nginx
+        state: reloaded
 
-    # - name: Run Prometheus container
-    #   docker_container:
-    #     name: prometheus
-    #     image: prom/prometheus:latest
-    #     state: started
-    #     restart_policy: always
-    #     ports:
-    #       - "9090:9090"
-    #     volumes:
-    #       - "{{ project_root }}/prometheus.yml"
-
-    # - name: Run Grafana container
-    #   docker_container:
-    #     name: grafana
-    #     image: grafana/grafana:latest
-    #     state: started
-    #     restart_policy: always
-    #     ports:
-    #       - "3001:3001"
-    #     volumes:
-    #       - "{{ project_root }}/datasources.yml"
-    #     env:
-    #       - "GF_AUTH_DISABLE_LOGIN_FORM=true"
-    #       - "GF_AUTH_ANONYMUS_ENABLED=true"
-    #       - "GF_AUTH_ANONYMUS_ORG_ROLE=Admin"
-    #       - "GF_SERVER_HTTP_PORT=3001"
   handlers:
     - name: Reload Nginx
       service:
