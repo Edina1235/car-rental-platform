@@ -15,7 +15,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 3,
+  "id": 2,
   "links": [],
   "panels": [
     {
@@ -63,29 +63,35 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "prometheus_api_remote_read_queries",
+          "expr": "scrape_duration_seconds",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
         },
         {
-          "expr": "histogram_quantile(0.95, sum(rate(prometheus_http_request_duration_seconds_bucket[5m])) by (le))",
+          "expr": "scrape_samples_post_metric_relabeling",
           "interval": "",
           "legendFormat": "",
           "refId": "B"
         },
         {
-          "expr": "prometheus_engine_query_duration_seconds_sum",
+          "expr": "scrape_samples_scraped",
           "interval": "",
           "legendFormat": "",
           "refId": "C"
+        },
+        {
+          "expr": "scrape_series_added",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "D"
         }
       ],
       "thresholds": [],
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Panel Title",
+      "title": "Car-rental-platform",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -130,7 +136,7 @@
     "list": []
   },
   "time": {
-    "from": "now-30m",
+    "from": "now-6h",
     "to": "now"
   },
   "timepicker": {
@@ -148,7 +154,7 @@
     ]
   },
   "timezone": "",
-  "title": "carRentalPlatform00",
-  "uid": "onSf5rWDz",
+  "title": "Car-rental-platform",
+  "uid": "5uP8X9WDz",
   "version": 1
 }
