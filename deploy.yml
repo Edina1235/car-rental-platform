@@ -124,32 +124,32 @@
     #     name: nginx
     #     state: reloaded
 
-    - name: Run Prometheus container
-      docker_container:
-        name: prometheus
-        image: prom/prometheus:latest
-        state: started
-        restart_policy: always
-        ports:
-          - "9090:9090"
-        volumes:
-          - "{{ project_root }}/prometheus.yml"
+    # - name: Run Prometheus container
+    #   docker_container:
+    #     name: prometheus
+    #     image: prom/prometheus:latest
+    #     state: started
+    #     restart_policy: always
+    #     ports:
+    #       - "9090:9090"
+    #     volumes:
+    #       - "{{ project_root }}/prometheus.yml"
 
-    - name: Run Grafana container
-      docker_container:
-        name: grafana
-        image: grafana/grafana:latest
-        state: started
-        restart_policy: always
-        ports:
-          - "3001:3001"
-        volumes:
-          - "{{ project_root }}/datasources.yml"
-        env:
-          - "GF_AUTH_DISABLE_LOGIN_FORM=true"
-          - "GF_AUTH_ANONYMUS_ENABLED=true"
-          - "GF_AUTH_ANONYMUS_ORG_ROLE=Admin"
-          - "GF_SERVER_HTTP_PORT=3001"
+    # - name: Run Grafana container
+    #   docker_container:
+    #     name: grafana
+    #     image: grafana/grafana:latest
+    #     state: started
+    #     restart_policy: always
+    #     ports:
+    #       - "3001:3001"
+    #     volumes:
+    #       - "{{ project_root }}/datasources.yml"
+    #     env:
+    #       - "GF_AUTH_DISABLE_LOGIN_FORM=true"
+    #       - "GF_AUTH_ANONYMUS_ENABLED=true"
+    #       - "GF_AUTH_ANONYMUS_ORG_ROLE=Admin"
+    #       - "GF_SERVER_HTTP_PORT=3001"
   handlers:
     - name: Reload Nginx
       service:

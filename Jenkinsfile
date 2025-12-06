@@ -87,6 +87,30 @@ pipeline {
                 }
             }
         }
+
+        stage('Prometheus') {
+            steps {
+                script {
+                    if (isUnix()) {
+                        sh 'docker run --rm -p 9090:9090 -v prometheus.yml prom/prometheus:v2.20.1'
+                    } else {
+                        bat 'wsl docker run --rm -p 9090:9090 -v prometheus.yml prom/prometheus:v2.20.1'
+                    }
+                }
+            }
+        }
+
+        stage('Grafana') {
+            steps {
+                script {
+                    if (isUnix()) {
+                        sh 'docker run --rm -p 3001:3001 -e GF_AUTH_DISABLE_LOGIN_FORM=true -e GF_AUTH_ANONYMOUS_ENABLED=true -e GF_AUTH_ANONYMOUS_ORG_ROLE=Admin -e GF_SERVER_HTTP_PORT=3001 -v datasources.yml grafana/grafana:7.1.5'
+                    } else {
+                        bat 'wsl docker run --rm -p 3001:3001 -e GF_AUTH_DISABLE_LOGIN_FORM=true -e GF_AUTH_ANONYMOUS_ENABLED=true -e GF_AUTH_ANONYMOUS_ORG_ROLE=Admin -e GF_SERVER_HTTP_PORT=3001 -v datasources.yml grafana/grafana:7.1.5'
+                    }
+                }
+            }
+        }
     }
 
     post {
