@@ -92,9 +92,9 @@ pipeline {
             steps {
                 script {
                     if (isUnix()) {
-                        sh 'docker run --rm -p 9090:9090 -d -v prometheus.yml prom/prometheus:v2.20.1'
+                        sh 'docker run --rm -p 9090:9090 -d -v ./prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus:v2.20.1'
                     } else {
-                        bat 'wsl docker run --rm -p 9090:9090 -d -v prometheus.yml prom/prometheus:v2.20.1'
+                        bat 'wsl docker run --rm -p 9090:9090 -d -v ./prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus:v2.20.1'
                     }
                 }
             }
@@ -104,9 +104,9 @@ pipeline {
             steps {
                 script {
                     if (isUnix()) {
-                        sh 'docker run --rm -p 3001:3001 -d -e GF_AUTH_DISABLE_LOGIN_FORM=true -e GF_AUTH_ANONYMOUS_ENABLED=true -e GF_AUTH_ANONYMOUS_ORG_ROLE=Admin -e GF_SERVER_HTTP_PORT=3001 -v datasources.yml -v dashboards.yml -v my-grafana-dashboard.json grafana/grafana:7.1.5'
+                        sh 'docker run --rm -p 3001:3001 -d -e GF_AUTH_DISABLE_LOGIN_FORM=true -e GF_AUTH_ANONYMOUS_ENABLED=true -e GF_AUTH_ANONYMOUS_ORG_ROLE=Admin -e GF_SERVER_HTTP_PORT=3001 -v ./datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml -v ./dashboards.yml:/etc/grafana/provisioning/dashboards/main.yaml -v ./my-grafana-dashboard.json:/var/lib/grafana/dashboards/my-grafana-dashboard.json grafana/grafana:7.1.5'
                     } else {
-                        bat 'wsl docker run --rm -p 3001:3001 -d -e GF_AUTH_DISABLE_LOGIN_FORM=true -e GF_AUTH_ANONYMOUS_ENABLED=true -e GF_AUTH_ANONYMOUS_ORG_ROLE=Admin -e GF_SERVER_HTTP_PORT=3001 -v datasources.yml -v dashboards.yml -v my-grafana-dashboard.json grafana/grafana:7.1.5'
+                        bat 'wsl docker run --rm -p 3001:3001 -d -e GF_AUTH_DISABLE_LOGIN_FORM=true -e GF_AUTH_ANONYMOUS_ENABLED=true -e GF_AUTH_ANONYMOUS_ORG_ROLE=Admin -e GF_SERVER_HTTP_PORT=3001 -v ./datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml -v ./dashboards.yml:/etc/grafana/provisioning/dashboards/main.yaml -v ./my-grafana-dashboard.json:/var/lib/grafana/dashboards/my-grafana-dashboard.json grafana/grafana:7.1.5'
                     }
                 }
             }
